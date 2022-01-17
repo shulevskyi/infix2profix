@@ -25,49 +25,60 @@ public static class SampleStack
             }
             return -1;
         }
-        
-        const string data = "5 * (10 - 8) / 7 + 1";
-        var trim = data.Replace( " ", "" );
 
-        foreach (var t in trim)
+        string? InfixToPostfix(string data)
         {
-            if (!char.IsLetterOrDigit(t))
+            
+            var trim = data.Replace(" ", "");
+
+            foreach (var t in trim)
             {
-                switch (t)
+                if (!char.IsLetterOrDigit(t))
                 {
-                    case '(':
-                        stack.Push(t);
-                        break;
-                    case ')':
+                    switch (t)
                     {
-                        while (stack.Count > 0 && (char) stack.Peek()! != '(')
+                        case '(':
                         {
-                            output += stack.Pop();
+                            stack?.Push(t);
+                            break;
                         }
-                        stack.Pop();
-                        break;
-                    }
-                    default:
-                    {
-                        while (stack.Count > 0 && Precedence(t) <= Precedence((char) stack.Peek()!))
+                        case ')':
                         {
-                            output += stack.Pop();
+                            while (stack is {Count: > 0} && (char) stack.Peek()! != '(')
+                            {
+                                output += stack.Pop();
+                            }
+
+                            stack?.Pop();
+                            break;
                         }
-                        stack.Push(t);
-                        break;
+                        default:
+                        {
+                            while (stack is {Count: > 0} && Precedence(t) <= Precedence((char) stack.Peek()!))
+                            {
+                                output += stack.Pop();
+                            }
+
+                            stack?.Push(t);
+                            break;
+                        }
                     }
                 }
+                else
+                {
+                    output += t;
+                }
             }
-            else
+
+            while (stack is {Count: > 0})
             {
-                output += t;
+                output += stack.Pop();
             }
+
+            return output;
         }
-        while (stack.Count > 0)
-        {
-            output += stack.Pop();
-        }
-        Console.WriteLine("Infix form: " + output);
+
+        Console.WriteLine(InfixToPostfix("5 * (10 - 8) / 7 + 1"));
     }
     
 }
