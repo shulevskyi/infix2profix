@@ -49,7 +49,7 @@ public static class SampleStack
                         case ')':
                         {
                             // Loop that delete last elements from the stack and put it to the output,
-                            // until ")" is founded
+                            // until ")" is found
                             
                             while (stack is {Count: > 0} && (char) stack.Peek()! != '(')
                             {
