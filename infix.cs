@@ -90,7 +90,9 @@ public static class SampleStack
         }
         
         // Usage of the function
-        Console.WriteLine(InfixConverter("5 * (10 - 8) / 7 + 1"));
+        var converted = InfixConverter("5 * (10 - 8) / 7 + 1");
+        Console.WriteLine(converted);
+        
     }
     
 }
